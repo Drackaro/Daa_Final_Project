@@ -26,10 +26,10 @@
     \section{Problemática}
     \subsection{¿De qué trata el problema?}
     El campus de una universidad cuenta con n edificios, numerados desde 1 hasta n. En cada uno de estos
-    edificios puede haber planeada una clase de matemáticas, o una clase de programación, o ninguna clase
+    edificios puede haber planeada una clase de matemáticas, o una clase de ciencia de la computación, o ninguna clase
     (nunca hay planeadas clases de ambas materias en un mismo edificio). Además de esto, en cada edificio
     hay a lo sumo un profesor, y cada profesor es experto de una de las materias, es decir, que hay profesores
-    de matemática y de programación.
+    de matemática y de ciencia de la computación.
     
     Como trabajador de University Express Inc., tu trabajo es transportar de manera rápida y amena  a los
     profesores para que puedan impartir sus clases. Para esto se te ha otorgado nada más y nada menos que un
@@ -41,7 +41,7 @@
     empezar)
 
     Al final de tu recorrido, en cada edificio donde haya planeada una clase de matemáticas debe haber un
-    profesor experto en dicha materia, mientras que en cada edificio con una clase de programación planeada
+    profesor experto en dicha materia, mientras que en cada edificio con una clase de ciencia de la computación planeada
     debe haber un profesor experto en esta materia. Planea un itinerario de viajes con el que puedan ser
     impartidas con éxito todas las clases planeadas.
 
@@ -50,14 +50,33 @@
 
     \begin{itemize}
         \item Un número entero  n $(1 \leq n \leq 2000)$ que será la cantidad de edificios de la universidad
-        \item Un string de longitud n conformado por los caracteres (\texttt{M}, \texttt{P}, \texttt{-}), el caracter
+        \item Un string de longitud n conformado por los caracteres (\texttt{M}, \texttt{C}, \texttt{-}), el caracter
               en la posición i determina la materia de la clase que está programada en el edificio i: \texttt{M} representa
-              una clase de matemáticas, \texttt{P} una de programación y \texttt{-} representa que no hay ninguna
+              una clase de matemáticas, \texttt{C} una de ciencia de la computación y \texttt{-} representa que no hay ninguna
               clase planeada en ese edificio.
-        \item Un string de longitud n conformado otra vez por los caracteres (\texttt{M}, \texttt{P}, \texttt{-}),
+        \item Un string de longitud n conformado otra vez por los caracteres (\texttt{M}, \texttt{C}, \texttt{-}),
               pero esta vez para definir los profesores que se encuentran inicialmente en cada edificio. Una \texttt{M}
-              o \texttt{P} en la posición i representa que en el edificio i hay un profesor de matemáticas o programación
-              respectivamente mientras una \texttt{-} representa que dicho edificio está vacío.
+              o \texttt{C} en la posición i representa que en el edificio i hay un profesor de matemáticas o de ciencia de la 
+              computación respectivamente mientras una \texttt{-} representa que dicho edificio está vacío.
     \end{itemize}
+
+    \subsection{Salida}
+    Se debe imprimir en una primera línea un entero l, que representa el número de operaciones que hace el
+    itinerario realizado.
+    Luego se deben imprimir l líneas donde se muestren cuáles fueron las operaciones realizadas. Dichas operaciones
+    pueden ser las siguientes:
+
+    \begin{itemize}
+        \item \textbf{\texttt{DRIVE x}}: Ir al edificio con el número x $(1 \leq x \leq n)$.
+        \item \textbf{\texttt{PICKUP}}: Recoge al profesor que se encuentra en el edificio actual.
+        \item \textbf{\texttt{DROPOFF}}: Deja al pasajero que se lleve en ese momento en el edificio actual.
+    \end{itemize}
+
+    Para considerar correcto un itinerario debe cumplir que no se hagan dos instrucciones \texttt{DRIVE}
+    hacia el mismo edificio, para cada instrucción \texttt{PICKUP} debe haber un profesor en el edificio y
+    ninguno en el scooter, para cada instrucción \texttt{DROPOFF} debe llevarse un pasajero en ese momento,
+    no se puede volver a recoger a un profesor que se acaba de dejar en un edificio y por supuesto debe cumplirse
+    la condición de solución del problema, es decir, en cada edificio debe haber un profesor de la materia que
+    se requiera, ya sea porque fue transportado ahí o porque ya estaba en el edificio desxde un principio.
     
 \end{document}
