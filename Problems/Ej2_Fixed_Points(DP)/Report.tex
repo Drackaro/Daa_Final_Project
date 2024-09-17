@@ -1,0 +1,49 @@
+%! Author = Drackaro
+%! Date = 9/1/2024
+
+% Preamble
+\documentclass[11pt]{article}
+
+%Packages
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{color}
+\usepackage{listings}
+
+\author{
+    DP
+    }
+\title{Problema \#2: Fixed Points}
+
+% Document
+\begin{document}
+
+
+    \maketitle
+    \newpage
+
+    \section{Problemática}
+    \subsection{¿De qué trata el problema?}
+    Considera una secuencia de números enteros $a_1, a_2, ... , a_n$. En un movimientopuedes seleccionar 
+    cualquier elemento de la secuencia y eliminarlo. Luego de que un elemento se elimine todos los demás 
+    elementos a su derecha son desplazados a la izquierda una posición, por lo que no quedan elementos vacíos 
+    en la secuencia. Luego de hacer un movimiento la longitud de la secuencia didminuye en 1. Los índices 
+    de los elementos se recalculan luego de esto.
+
+    Dada la secuencia $a_1, a_2, ... , a_n$ y un número k, debes encontrar la menor cantidad de movimientos 
+    que se deben hacer para que la secuencia resultante tenga al menos k elementos que sean iguales a sus 
+    índices, es decir, que la secuencia resultante $b_1, b_2, ... , b_m$ tenga al menos k índices i tal que 
+    $b_i = i$
+
+    \subsection{Entrada}
+    Se reciben dos enteros n (longitud de la cadena) y k (número de elementos que deben coincidir con su índice),
+    asi como la secuencia $a_1, a_2, ... , a_n$ $(1 \leq a_i \leq n)$. Los números de la secuencia no tienen 
+    que ser diferentes necesariamente.
+    
+    \subsection{Salida}
+    Se debe devolver un entero x $(0 \leq x \leq n)$, que represente la cantidad mínima de movimientos que se
+    pueden hacer para que en la secuencia resultante existan al menos k elementos iguales a su índice. Si no
+    es posible encontrar dicha secuencia se devuelve -1.
+    
+\end{document}
