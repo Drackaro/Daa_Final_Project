@@ -4,7 +4,7 @@
 
 ### Ejercicios a resolver:
 
-- Scooter
+- Scooter: [Solución aceptada en codeforces](https://codeforces.com/contest/1949/submission/281794207)
 
 - Fixed Points
 

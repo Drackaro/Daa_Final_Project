@@ -77,6 +77,66 @@
     ninguno en el scooter, para cada instrucción \texttt{DROPOFF} debe llevarse un pasajero en ese momento,
     no se puede volver a recoger a un profesor que se acaba de dejar en un edificio y por supuesto debe cumplirse
     la condición de solución del problema, es decir, en cada edificio debe haber un profesor de la materia que
-    se requiera, ya sea porque fue transportado ahí o porque ya estaba en el edificio desxde un principio.
+    se requiera, ya sea porque fue transportado ahí o porque ya estaba en el edificio desde un principio.
+
+    \newpage
+
+    \section{Solución}
+    \subsection{Idea general de la solución}
+    El problema plantea un desafío logístico, donde debemos mover a los profesores de manera eficiente entre 
+    los edificios. La solución se basa en un enfoque Greedy, que busca resolver el problema tomando decisiones 
+    localmente óptimas en cada paso. Tenemos las variables: n (cantidad de edificios), p(array que indica los
+    profesores en cada edificio) y c(array que indica las clases programadas en cada edificio)
+
+    Primeramente vamos a definir como \textbf{Desajuste} a un estado del problema que incumple la condición
+    de solución del problema, es decir, un desajuste ocurre cuando el profesor presente en un edificio no 
+    coincide con la clase que se imparte en ese mismo edificio, o cuando no hay profesor en un edificio que 
+    necesita uno para una clase específica. De manera un poco más formal podemos decir que un desajuste en un
+    edificio i ($1 \leq i \leq n$) ocurre si y solo si alguna de las siguientes condiciones se cumple:
+
+    \begin{enumerate}
+        \item \textbf{Hay una clase pero no un profesor adecuado:}
+        \begin{itemize}
+            \item Si en el edificio i se imparte una clase de matemáticas (\texttt{c[i] = M}) pero no hay
+                  un profesor en dicho edificio (\texttt{p[i] = -}) o hay un profesor de ciencia de la 
+                  computación (\texttt{p[i] = C})
+            \item Si en el edificio i se imparte una clase de ciencia de la computación (\texttt{c[i] = C})
+                  pero no hay un profesor en dicho edificio (\texttt{p[i] = -}) o hay un profesor de matemáticas 
+                  (\texttt{p[i] = M})
+        \end{itemize}
+
+        \item \textbf{Hay un profesor pero no se imparte la clase correcta:}
+        \begin{itemize}
+            \item Si en el edificio i hay un profesor de matemáticas (\texttt{p[i] = M}) pero no se
+                  imparte una clase en dicho edificio (\texttt{c[i] = -}) o se imparte una clase de 
+                  ciencia de la computación (\texttt{c[i] = C})
+            \item Si en el edificio i hay un profesor de ciencia de la computación (\texttt{p[i] = C})
+                  pero no se imparte una clase en dicho edificio (\texttt{c[i] = -}) o se imparte una 
+                  clase de matemáticas (\texttt{c[i] = M})
+        \end{itemize}
+    \end{enumerate}
+
+    Por tanto podemos decir que un problema con 0 desajustes está resuelto, ya que si el problema tiene
+    0 desajustes significa que en cada edificio donde se imparte una clase hay un profesor de dicha materia.
+    Más adelante veremos que hay dos tipos de desajustes que son despreciables, es decir, no es necesario
+    eliminarlos para resolver el problema. El objetivo del algoritmo es eliminar todos estos desajustes necesarios, 
+    moviendo profesores entre edificios.
+
+    Para esto primeramente se agrupan los edificios en 6 categorias según el tipo de desajuste que presentan
+    (nótese que en la definición de desajuste se plantean 6 condiciones que generan un desajuste), esto nos 
+    permite identificar claramente cuáles edificios tienen un problema de desajuste y qué tipo de profesores 
+    necesitamos mover.
+
+    El enfoque Greedy utilizado resuelve los desajustes uno a uno. Para esto se priorizan los edificios con un 
+    profesor que no coincide con la clase programada y los vacíos que requieren profesores. En cada paso, se mueve 
+    a un profesor del edificio equivocado a uno que necesita su especialidad. Esto garantiza que se resuelvan los 
+    desajustes de manera progresiva. Se lleva además una condición de balance para priorizar una materia sobre otra, 
+    es decir, si hay más edificios que requieren profesores de un tipo específico (por ejemplo, ciencias de la 
+    computación) que edificios con profesores disponibles de ese tipo, el algoritmo ajusta el balance moviendo primero 
+    a los profesores donde más se necesitan.
+
+    \subsection{Explicación del código}
+
+    \subsection{Demostración formal}
     
 \end{document}
