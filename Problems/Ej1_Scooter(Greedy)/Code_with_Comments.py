@@ -129,7 +129,7 @@ def main():
     for v, c in ans:
         cmds.append(f"DRIVE {v}")  # Agregar el comando DRIVE para ir al edificio v
         if c // 2:
-            cmds.append("DROPOFF")  # Si c es par, agregar el comando DROPOFF
+            cmds.append("DROPOFF")  # Si c es >= 2, agregar el comando DROPOFF
         if c % 2:
             cmds.append("PICKUP")  # Si c es impar, agregar el comando PICKUP
     
