@@ -207,6 +207,15 @@
     Por tanto la respuesta al ejercicio es el menor $j$ tal que $dp[n][j] \geq k$, es decir, la menor cantidad
     de movimientos que se pueden hacer para que en $a$ hayan al menos k índices fijos.
 
+    \subsubsection{Cerrando la demostración}
+    Como podemos ver, el algoritmo satisface las restricciones del problema y devuelve una solución correcta.
+    En todo momento se tienen en cuenta todos los casos posibles (eliminar o no cada elemento), y siempre se
+    detecta a los índices fijos en el momento y la situación correcta, por lo que cada subproblema se resuelve
+    de manera óptima y los problemas superiores eligen la solución más óptima de los subproblemas de los que
+    depende, lo que hace que cada instancia del problema esté correctamente calculada en el dp. Por esta razón
+    la solución devuelta es la óptima, y es fácil ver que el algoritmo siempre para, ya que la tabla de dp se
+    llena se manera progresiva en $O(n^2)$ operaciones.
+
     \subsection{Complejidad espacial y temporal}
     La transformación inicial de la secuencia de entrada se hace en $O(n)$, y la respuesta se da leyendo solo
     una fila del dp, lo que tambien es $O(n)$, por tanto la complejidad temporal va estar dada por el coste
