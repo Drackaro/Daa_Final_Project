@@ -6,7 +6,7 @@
 
 - Scooter: [Solución aceptada en codeforces](https://codeforces.com/contest/1949/submission/281794207)
 
-- Fixed Points
+- Fixed Points: [Solución aceptada en codeforces](https://codeforces.com/contest/1551/submission/281915711)
 
 - Subset Equality Problem (NP hard)
 
