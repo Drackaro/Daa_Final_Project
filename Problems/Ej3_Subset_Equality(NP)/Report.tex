@@ -31,9 +31,9 @@
 
     \section{Problemática}
     \subsection{¿De qué trata el problema?}
-    Dado un conjunto S de números enteros no negativos, el problema consiste en identificar si existe una
-    partición del conjunto S en dos nuevos conjuntos X y Y, de tal forma que la suma de todos los elementos
-    que pertenecen a X sea igual a la suma de todos los elementos que pertenecen a Y.
+    Dado un conjunto $S$ de números enteros no negativos, el problema consiste en identificar si existe una
+    partición del conjunto $S$ en dos nuevos conjuntos $X$ y $Y$, de tal forma que la suma de todos los elementos
+    que pertenecen a $X$ sea igual a la suma de todos los elementos que pertenecen a $Y$.
 
     De manera formal el problema se define de la siguiente manera: Sea $S = {s_1, s_2, ... ,s_n}$ se deben
     encontrar $X = x_1, x_2, ... , x_a$ y $Y = y_1, y_2, ... ,y_b$ tal que $a+b=n$, y:
@@ -43,7 +43,7 @@
     \]
     
     \subsection{Entrada}
-    Un array S de números enteros no negativos.
+    Un array $S$ de números enteros no negativos.
     
     \subsection{Salida}
     True o False si es posible encontrar las particiones que cumplan la condición expuesta anteriormente, y en
@@ -230,5 +230,25 @@
     Finalmente queda demostrado que se puede construir una solución para el 3-SAT a partir de una para el Subset sum en tiempo
     polinomial, por lo que como 3-SAT es NP hard entonces Subset Sum es también NP hard. Lo que a su vez implica que Subset Equality
     problem es NP hard. Finalmente como Subset Equality problem es NP, y ademas NP hard, es también NP completo.
+
+    \section{Solución de fuerza bruta}
+    La solución de fuerza bruta del ejercicio es en verdad bastante trivial, se generan todos los posibles subconjuntos de $S$
+    y para cada uno se chequea que la suma de todos sus elementos es igual a $total\_sum \div 2$ donde $total\_sum$ es la suma de
+    todos los elementos de $S$. Se devuelve el primer subconjunto que cumpla esa condición y el resto de $S$ en otro subconjunto.
+    La suma de ambos subconjuntos es $total\_sum \div 2$ por tanto son iguales. De no cumplirse la igualdad para ningún subconjunto
+    de $S$ entonces se devuelve \texttt{False}, ya que para esa entrada el problema no tiene solución. Al algoritmo se aplica una
+    clase de poda bastante evidente y es que si desde un principio $total\_sum$ es impar entonces no va a ser posible resolver el 
+    problema.
+
+    \subsection{Complejidad temporal y espacial}
+    Para resolver el problema se utilizó el módulo \texttt{Combinations} de la biblioteca \texttt{Itertools}, este genera todas
+    las combinaciones posibles del array de entrada pero no las almacena simultáneamente por lo que la complejidad espacial no pasa 
+    de $O(n)$ que es el tamaño del array de entrada.
+
+    En cuanto a la complejidad temporal, la operación con más costo del programa es la de generar todos los posibles subconjuntos de
+    un conjunto, dicha complejidad es $O(2^n)$, ya que cada elemento tiene 2 opciones: Estar o no en un conjunto, por tanto
+    para cada elemento hay 2 posibilidades, y como son $n$ elementos entonces hay $2^n$ posibles subconjuntos. A cada uno de estos
+    subconjuntos además se le hace una comprobación lineal (chequear el valor de la suma de sus elementos), por tanto en términos
+    estrictos la complejidad temporal del algoritmo es de $O(2^n \cdot n)$. 
     
 \end{document}
