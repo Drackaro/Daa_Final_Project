@@ -1,4 +1,5 @@
 from Code import subset_equality
+from Dp_Solution import subset_equality_dp
 import random
 
 def CheckSolution(original: list, array1: list, array2: list):

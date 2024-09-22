@@ -251,8 +251,8 @@
     solución, ya que sería imposible armar dos subconjuntos que sumen igual. La segunda poda es que no se generan subconjuntos de todos
     los tamaños (de 1 a $n$), sino que solo generamos subconjuntos de tamaño a lo sumo la mitad de $n$. Esto es correcto ya que para cualquier
     manera de dividir $S$ en $X$ y $Y$ se tiene que cumplir que la longitud de uno de estos debe ser a lo sumo la mitad de $n$, siendo $n$ la
-    longitud de $S$, ya que en caso contario las longitudes de $X$ y $Y$ sumarían más de $n$, lo cual no es correcto. Por tanto si para un conjunto
-    de tamaño menor que la mitad de $n$ se cumple que la suma de sus elementos es la deseada, el otra mitad sumará lo mismo sin importar
+    longitud de $S$, ya que en caso contrario las longitudes de $X$ y $Y$ sumarían más de $n$, lo cual no es correcto. Por tanto si para un conjunto
+    de tamaño menor que la mitad de $n$ se cumple que la suma de sus elementos es la deseada, el resto del conjunto sumará lo mismo sin importar
     su tamaño, por lo que no hace falta generarlo. La primera poda permite resolver algunas instancias sin solución del problema
     en orden lineal, mientras que la segunda no reduce la complejidad temporal total pero si logra que se realicen muchas menos
     operaciones.
@@ -266,6 +266,103 @@
     un conjunto, dicha complejidad es $O(2^n)$, ya que cada elemento tiene 2 opciones: Estar o no en un conjunto, por tanto
     para cada elemento hay 2 posibilidades, y como son $n$ elementos entonces hay $2^n$ posibles subconjuntos. A cada uno de estos
     subconjuntos además se le hace una comprobación lineal (chequear el valor de la suma de sus elementos), por tanto en términos
-    estrictos la complejidad temporal del algoritmo es de $O(2^n \cdot n)$. 
+    estrictos la complejidad temporal del algoritmo es de $O(2^n \cdot n)$.
+
+    \section{Solución polinomial con DP}
+
+    \subsection{Idea general}
+    Vamos a utilizar un enfoque de programación dinámica (dp) para resolver algunas instancias del problema en tiempo polinomial.
+    Sea $target$ la mitad de la suma de todos los elementos del conjunto $S$ (conjunto de entrada), vamos a crear una lista de dp
+    de tamaño $target + 1$, donde la invariante que mantendrá dicha lista será la siguiente: $dp[i]$ es \texttt{True} si es posible
+    armar un subconjunto de $S$ tal que la suma de sus elementos es igual a $i$, de lo contrario es \texttt{False}. De esta manera en
+    $dp[target]$ estará guardado si es posible encontrar un subconjunto cuyos elementos sumen $target$, lo cual soluciona el Subset
+    Equality problem. En caso positivo reconstruimos los subconjuntos solución y los devolvemos.
+
+    \subsection{Explicación del código}
+    Al igual que en la solución de fuerza bruta, la primera comprobación que se hace es si la suma total de $S$ es impar, en cuyo
+    caso el problema no tiene solución. Posteriormente se crean las listas $dp$ y $prev$ ambas de tamaño $target+1$ que vamos a 
+    explicar a continuación.
+
+    La lista de dp se construye de la siguiente manera: $dp[0] =$ \texttt{True}, ya que siempre es posible lograr una suma de 0 con el
+    subconjunto vacío. Luego para cada elemento $num$ de $S$ y para cada $i$ ($i \leq target$) de mayor a menor, $dp[i]$ se hace \texttt{True} si 
+    $dp[i - num]$ es \texttt{True}, aquí lo que estamos diciendo es que si hay una manera de construir un subconjunto que sume $i - num$ 
+    entonces podemos crear uno que sume $i$ simplemente añadiendo $num$ a dicho subconjunto.
+
+    La lista $prev$ nos va a ayudar en la reconstrucción de los subconjuntos solución. Esta se actualiza cada vez que se hace \texttt{True}
+    una posición en el bucle del dp. Concretamente, lo que se hace es que cuando $dp[i - num]$ es \texttt{True}, luego de actualizar el dp
+    se coloca en $prev[i]$ el valor $num$. Esto lo que significa es que con el número que se consiguió construir un subconjunto de suma $i$
+    fue con $num$. De esta forma para reconstruir el conjunto solución vamos consultando los valores de $prev$ de la siguiente manera:
+    Primero vemos con que número $num_1$ se logró armar una suma $target$, luego veamos con que número $num_2$ se armó una suma $target-num_1$,
+    luego una suma $target-num_1-num_2$ y asi sucesivamente hasta que $target-num_1-num_2-...-num_a = 0$, con esto entonces ya podemos construir
+    un subconjunto $X = num_1, num_2, ... , num_a$ tal que la suma de todos ellos es $target$. El otro subconjunto solución es simplemente el resto
+    de $S$ que tambien sumará $target$. Finalmente si fue posible construir ambos subconjuntos se devuelve \texttt{True} y los subconjuntos
+    solución, mientras que en caso contrario solo se devuelve \texttt{False}.
+
+    \subsection{Demostración formal}
+    Vamos a demostrar las propiedades de subestructura óptima y subproblemas superpuestos, seguido de la demostración
+    de la correctitud del algoritmo.
+
+    \subsubsection{Subestructura óptima}
+    Esta propiedad se refiere a que la solución de un problema se pueda construir a partir de las soluciones de subproblemas más pequeños.
+    En este caso cada problema depende de un subproblema: Para calcular si es posible armar un subconjunto con suma $i$, comprobaremos si es
+    posible armar un conjunto de suma $i-num$, donde $num \in S$. Esto se hace para cada elemento de $S$ y se cumple lo siguiente:
+
+    Para el elemento $j$-ésimo de $S$ lo que se está calculando realmente es qué sumas pueden lograrse con $num_j$ dado que estas fueron
+    las que se lograron con subconjuntos formados por los primeros $j-1$ elementos de $S$. Esto pasa por que con cada número se actualiza
+    la tabla de dp. Por ejemplo con el primer elemento de $S$ la tabla está en \texttt{False} completa por lo que solo se actualizará la posición
+    $dp[num_0]$, ya que la única suma que se puede lograr con un único número es precisamente ese número. Ya para el siguiente número, el algoritmo
+    va a tener en cuenta lo que se logró sumar con el caso anterior, o los casos anteriores (por que la lista de dp se va actualizando), y así para 
+    cada elemento. Por tanto para el problema de hayar las sumas posibles que se logran con el número $num_i$ son necesarias las respuestas de los 
+    subproblemas que calcularon las sumas que se alcanzaron usando los anteriores $i$ números. Por tanto se construyen soluciones a problemas utilizando 
+    soluciones de subproblemas más pequeños, luego se cumple la propiedad de subestructura óptima.
+
+    \subsubsection{Subproblemas superpuestos}
+    Esta propiedad se refiere a que el mismo subproblema se puede estar calculando en varias instancias de la ejecución. En
+    este caso el subproblema que se puede estar calculando varias veces es: Para este elemento de $S$, es posible construir una 
+    suma de $i$ dado que las sumas que se han logrado armar hasta ahora son las que hay en la lista de dp. Concretamente el algoritmo
+    lidia con esto chequeando siempre si $dp[i]$ ya está en \texttt{True}, en cuyo caso se salta a la siguiente iteración. Esto
+    ocurre, por ejemplo, cuando ya se logró armar una suma de $i$ con elementos anteriores pero ahora, por la forma en se ejecuta
+    el programa, toca volver a chequear si se puede conseguir la misma suma. Sin embargo, a efectos del problema ya no es necesario
+    volver a resolver ese subproblema, si ya se logró armar una suma de $i$ no es necesario volver a calcular si se puede volver a formar
+    con otros elementos, esto no alterará la solución del problema, y por eso, el algortimo evita volver a repetir el cómputo saltando
+    a la siguiente operación. Por tanto este es un subproblema que, sin el enfoque del dp, requeriría de recalcularse repetidas veces, por
+    tanto, se cumple la propiedad de los subproblemas superpuestos.
+
+    \subsubsection{Correctitud del dp}
+    Vamos a demostrar que la respuesta al Subset Equality problem se encuentra en $dp[target]$ al final de la ejecución. Para
+    esto debemos demostrar que la lista de dp se está construyendo correctamente. Vamos a hacer inducción en las posibles sumas que
+    calcula el dp:\\[10pt]
+
+    \textbf{Caso base:} $i = 0$
+    
+    Para $i = 0$ se actualiza $dp[0] =$ \texttt{True} desde el principio, ya que en todo momento se puede alcanzar
+    una suma de 0 con el subconjunto vacío. Por tanto $dp[0]$ está bien calculado en todo momento.\\[10pt]
+
+    \textbf{Hipótesis de inducción}
+    
+    Vamos a suponer que para todo $i$, ($i < target$) la posición $dp[i]$ indica si es posible lograr una suma de $i$
+    con los elementos de $S$.\\[10pt]
+
+    \textbf{Paso inductivo}
+    
+    Recordemos que en la demostración de subestructura óptima vimos que lo que se calcula en cada iteración es, que sumas pueden
+    lograrse con el número actual dado que se han conseguido estas con los anteriores. Por tanto para cada elemento de $S$ se
+    ha comprobado si $dp[target - num]$ es \texttt{True}. En cualquier momento si esto se cumple significa que existe al menos un subconjunto
+    de elementos de $S$ al cual si añadimos $num$ se soluciona el problema, y por hipótesis de inducción sabemos que $dp[target-num]$
+    está correctamente calculado, por tanto, la lista de dp se está construyendo bien en todas sus posiciones, lo que significa
+    que la respuesta al problema se encuentra en la última posición, que indica si fue posible o no construir un subconjunto de $S$
+    cuyos elementos sumen $target$.
+
+    Luego en la explicación del código vimos que con la lista $prev$ se construye un rastro de números que se puede seguir de la forma ahí indicada
+    para reconstruir un subconjunto de $S$ con suma $target$, y que se devuelven como subconjuntos solución este y el resto de $S$,
+    donde ambos suman $target$. Por tanto el algoritmo devuelve, si los hay, dos subconjuntos de $S$ donde la suma de cada uno
+    de los elementos de los conjuntos por separado es igual.
+
+    \subsection{Complejidad temporal y espacial}
+    La lista de dp se construye con un tamaño de $target + 1$ (al igual que $prev$) donde $target$ es la mitad
+    de la suma de todos los elementos de $S$. Esta se llena recorriendo todas sus posiciones por cada elemento
+    de $S$, lo que da una complejidad temporal de $O(n \cdot target)$ y una complejidad espacial de $O(target)$.
+    Por tanto esta solución es más eficiente que la solución por fuerza bruta solo en los casos donde $target < 2^n$,
+    es decir, en los casos donde la suma de los elementos de $S$ no es demasiado grande.
     
 \end{document}
