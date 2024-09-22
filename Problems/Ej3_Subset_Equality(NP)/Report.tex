@@ -243,9 +243,19 @@
     y para cada uno se chequea que la suma de todos sus elementos es igual a $total\_sum \div 2$ donde $total\_sum$ es la suma de
     todos los elementos de $S$. Se devuelve el primer subconjunto que cumpla esa condición y el resto de $S$ en otro subconjunto.
     La suma de ambos subconjuntos es $total\_sum \div 2$ por tanto son iguales. De no cumplirse la igualdad para ningún subconjunto
-    de $S$ entonces se devuelve \texttt{False}, ya que para esa entrada el problema no tiene solución. Al algoritmo se aplica una
-    clase de poda bastante evidente y es que si desde un principio $total\_sum$ es impar entonces no va a ser posible resolver el 
-    problema.
+    de $S$ entonces se devuelve \texttt{False}, ya que para esa entrada el problema no tiene solución.
+
+    \subsection{Podas}
+    Aplicamos dos podas al algoritmo para aumentar ligeramente su eficiencia. La primera es un chequeo que se realiza sobre $S$ al
+    inicio, se comprueba si la suma total de los elementos del conjunto es impar, si esto se cumple entonces el problema no tiene
+    solución, ya que sería imposible armar dos subconjuntos que sumen igual. La segunda poda es que no se generan subconjuntos de todos
+    los tamaños (de 1 a $n$), sino que solo generamos subconjuntos de tamaño a lo sumo la mitad de $n$. Esto es correcto ya que para cualquier
+    manera de dividir $S$ en $X$ y $Y$ se tiene que cumplir que la longitud de uno de estos debe ser a lo sumo la mitad de $n$, siendo $n$ la
+    longitud de $S$, ya que en caso contario las longitudes de $X$ y $Y$ sumarían más de $n$, lo cual no es correcto. Por tanto si para un conjunto
+    de tamaño menor que la mitad de $n$ se cumple que la suma de sus elementos es la deseada, el otra mitad sumará lo mismo sin importar
+    su tamaño, por lo que no hace falta generarlo. La primera poda permite resolver algunas instancias sin solución del problema
+    en orden lineal, mientras que la segunda no reduce la complejidad temporal total pero si logra que se realicen muchas menos
+    operaciones.
 
     \subsection{Complejidad temporal y espacial}
     Para resolver el problema se utilizó el módulo \texttt{Combinations} de la biblioteca \texttt{Itertools}, este genera todas
