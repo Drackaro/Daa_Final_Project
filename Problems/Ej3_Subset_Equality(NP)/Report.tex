@@ -1,5 +1,4 @@
 %! Author = Drackaro
-%! Date = 9/1/2024
 
 % Preamble
 \documentclass[11pt]{article}
@@ -12,18 +11,26 @@
 \usepackage{listings}
 \usepackage{hyperref}
 \usepackage{array}
-
-\title{Problema \#3: Subset Equality Problem}
+\usepackage{xcolor}
 
 \hypersetup{
     colorlinks=true,
     linkcolor=blue
 }
 
-% Document
 \begin{document}
 
-    \maketitle
+    \begin{titlepage}
+        \centering
+        \colorbox{blue}{\parbox{\textwidth}{\centering\color{white}\Huge Subset Equality Problem}}
+        \vfill
+        \Large
+        \textbf{Luis Alejandro Rodríguez Otero} \\
+        \textit{Matcom} \\
+        September 21, 2024
+        \vfill
+    \end{titlepage}
+
     \newpage
 
     \tableofcontents
@@ -46,7 +53,7 @@
     Un array $S$ de números enteros no negativos.
     
     \subsection{Salida}
-    True o False si es posible encontrar las particiones que cumplan la condición expuesta anteriormente, y en
+    \texttt{True} o \texttt{False} si es posible encontrar las particiones que cumplan la condición expuesta anteriormente, y en
     caso positivo devolver tambien dichas particiones. Si existe más de un par de particiones válidas se puede 
     devolver cualquiera.
 
@@ -56,7 +63,7 @@
 
     \subsection{NP}
     Un problema es NP si, dada una solución candidata, es posible verificar en tiempo polinomial si la solución
-    es correcta o no. En este caso una solución candidata a este problema está formada por los conjuntos de enteros
+    es correcta o no. En este caso una solución candidata está formada por los conjuntos de enteros
     $X$ y $Y$. Para verificar si la solución es correcta primero se debe comprobar si $X \cup Y = S$ y si
     $X \cap Y = \emptyset$, dicha comprobación puede hacerse en $O(n)$ simplemente comprobando si no hay elementos
     repetidos en los conjuntos y en estos están presentes todos los elementos de $S$. Aquí aclarar que los elementos
@@ -79,7 +86,7 @@
     Para demostrar que Subset Sum es NP hard vamos a realizar una reducción de un problema conocido que sabemos
     que es NP hard a este. El problema que vamos a utilizar es \textbf{3-Sat}, en este problema se tiene una expresión
     booleana en forma normal conjuntiva y cada cláusula de esta tiene 3 variables, se debe encontrar una asignación 
-    a las variables (1 o 0) que haga verdadeda la expresión.
+    a las variables (1 o 0) que haga verdadera la expresión.
 
     Sea una expresión booleana con $n$ variables $x_i$ y $m$ cláusulas $c_j$. Por cada variable $x_i$ vamos
     a construir los números $t_i$ y $f_i$ cada uno de $n+m$ dígitos de la siguiente manera:
@@ -121,7 +128,7 @@
     \end{table}
 
     Ahora para cada cláusula $c_j$ vamos a construir los números $x_i$ y $y_i$ también de $n+m$ dígitos, de forma que
-    el único dígito igual a 1 en las dos variables será el ()$n+j$)-ésimo, el resto serán 0. Siguiendo el ejemplo
+    el único dígito igual a 1 en las dos variables será el ($n+j$)-ésimo, el resto serán 0. Siguiendo el ejemplo
     de la expresión booleana anterior los números que se forman son los siguientes:
 
     \begin{table}[!h]
@@ -183,7 +190,7 @@
     de esa manera:
 
     Primeramente vamos a analizar los números construidos de forma tabular como hemos hecho hasta ahora, de modo
-    que para resolver el Subset sum las primeras $n$ columnas debem sumar 1 y el resto de las $m$ columnas debe sumar
+    que para resolver el Subset sum las primeras $n$ columnas deben sumar 1 y el resto de las $m$ columnas debe sumar
     3. La primera parte se cumple ya que para cada $i$ se escoge a $t_i$ o a $f_i$, nunca a ambos ya que la variable
     $x_i$ solo tiene un valor en la asignación del 3-SAT, mientras que los números $x_j$ y $y_j$ no tienen 1 en esas
     posiciones, por tanto no influyen en la suma. Luego las $n$ primeras columnas suman 1. 
@@ -211,7 +218,7 @@
     Nótese que las únicas variables que pueden influir en la suma de una columna $j$ son las que se han analizado
     en cada caso, y todas aportan a lo sumo solo 1 a la suma. Además todas estas operaciones (tomar números del conjunto
     y comprobar en qué cláusulas está cada variable) se pueden hacer en tiempo polinomial. Por tanto queda demostrado que 
-    si existe una solución al problema de 3-SAT, podemos construir a partir de esta una solución al Subset sum problem en
+    si existe una solución al problema de 3-SAT, podemos construir a partir de esta una solución al Subset sum problem
     en tiempo polinomial. Vamos a hacer la demostración ahora en el otro sentido. Vamos a demostrar que si existe una 
     solución al Subset sum entonces podemos construir una solución para el 3-SAT.\\[10pt]
 

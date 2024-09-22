@@ -10,19 +10,26 @@
 \usepackage{color}
 \usepackage{listings}
 \usepackage{hyperref}
-
-\title{Problema \#1: Scooter}
+\usepackage{xcolor}
 
 \hypersetup{
     colorlinks=true,
     linkcolor=blue
 }
 
-% Document
 \begin{document}
 
+\begin{titlepage}
+    \centering
+    \colorbox{blue}{\parbox{\textwidth}{\centering\color{white}\Huge Scooter Problem}}
+    \vfill
+    \Large
+    \textbf{Luis Alejandro Rodríguez Otero} \\
+    \textit{Matcom} \\
+    September 21, 2024
+    \vfill
+\end{titlepage}
 
-    \maketitle
     \newpage
 
     \tableofcontents
@@ -84,7 +91,7 @@
     \section{Solución}
     \subsection{Idea general de la solución}
     El problema plantea un desafío logístico, donde debemos mover a los profesores de manera eficiente entre 
-    los edificios. La solución se basa en un enfoque Greedy, que busca resolver el problema tomando decisiones 
+    los edificios. La solución se basa en un enfoque \textbf{Greedy}, que busca resolver el problema tomando decisiones 
     localmente óptimas en cada paso. Tenemos las variables: $n$ (cantidad de edificios), $p$ (array que indica los
     profesores en cada edificio) y $c$ (array que indica las clases programadas en cada edificio)
 
@@ -156,7 +163,7 @@
         representado el indice de $g$ en donde se guardará el tipo de desajuste que hay en un edificio $i$ si se
         cumple que los valores de $p[i]$ y $c[i]$ son los que vienen dados en el resto de la fila. Por ejemplo en
         $g[2]$ se van a guardar los desajustes del tipo: Edificio con clase de M programada sin profesor
-        disponible de ningun tipo.}
+        disponible de ningún tipo.}
     \end{table}
 
     De ahora en adelante se hará referencia a los tipos de desajuste por números, donde el desajuste de tipo $i$
@@ -164,13 +171,13 @@
 
     En la lista $g$ se van a guardar los índices de los edificios que presenten desajustes, es decir, todos los
     índices de los edificio que tienen un desajuste de tipo 0 se guardarán en $g[0]$ y asi con el resto. Para
-    rellenar $g$ se recorren los arrays $p$ y $c$ y se van comprobando las condiciones de desajuste. Por supuesto
+    rellenar $g$ se recorren los arrays $p$ y $c$, y se van comprobando las condiciones de desajuste. Por supuesto
     los edificios donde $p[i] = c[i]$ son ignorados pues no presentan ningún desajuste.
 
     Posteriormente en el código aparece la funcion $put$ la cual es muy importante pues es la que ejecuta los
     movimientos en el problema, pero no lo hace de manera literal, es decir, en ningún momento en el problema
     se modifican los arrays $c$ y $p$ originales con los movimientos de los profesores. Por el contrario la función
-    put cada vez que sea llamada va a extraer un elemento de algún $g[i]$ y esto representará que un movimiento
+    $put$ cada vez que sea llamada va a extraer un elemento de algún $g[i]$ y esto representará que un movimiento
     del itinerario será conducir a $i$ y realizar la acción que viene dada por el parámetro $ty$ (type), si $ty = 1$
     se realizará la operación \texttt{PICKUP}, si $ty = 2$ se realiza la operación \texttt{DROPOFF} y si $ty = 3$ se
     realiza la operación \texttt{DROPOFF} seguida de la operación \texttt{PICKUP}. $put$ utiliza una lista $ans$
@@ -245,7 +252,7 @@
     pero además $l_1$ edificios con clase de CC desajustados, por otro lado tenemos al menos $l_2$ profesores de CC mal asignados pero
     $l_1 > l_2$ por tanto deben haber al menos $l_1 - l_2$ profesores de CC disponibles para cubrir todos los $l_1$ edificios desajustados.
     Estos profesores solo pueden estar en $g[0]$ pues la otra posibilidad es que estén en edificios correctos ya, lo cual es imposible
-    ya que si no no habría suficientes profesores de CC para resolver el ejercicio. Luego siempre es posible en este caso encontrar al
+    ya que si no, no habría suficientes profesores de CC para resolver el ejercicio. Luego siempre es posible en este caso encontrar al
     menos un profesor de CC en $g[0]$.
 
     Una vez se recoge este profesor el edificio queda vacío y sin clases, por lo que no será necesario regresar a él para solucionar el
@@ -283,7 +290,7 @@
     Este caso funciona de una manera totalmente análoga al caso 1. Esta vez $len(g[1]) < len(g[4])$ por lo que el profesor
     inicial se recoge de $g[3]$ y no de $g[0]$ pero la demostración es la análoga a la que se realizó en el caso 1.
     Toda la ejecución ocurre de manera similar tomando en cuenta que esta vez los desajustes de tipo 1 se resuelven primero,
-    el profesor al final del bucle inicial no es de CC sino de M, por lo que se deja (si es posible) en un desajuste de tipo 4.
+    el profesor al final del bucle inicial no es de CC sino de M, por lo que se deja en un desajuste de tipo 4.
     El profesor que se considera si recoger o no es de CC y no de M, por lo que se valora si se puede llevar a un desajuste
     de tipo 5 y no 2 y el resto de la ejecución ocurre de manera similar.
 
@@ -297,7 +304,7 @@
     Si hay desajustes de tipo 0 entonces están dadas condiciones similares al caso 1, por lo que se procede de la misma forma,
     con la única diferencia de que como $len(g[1]) = len(g[4])$, al término del bucle inicial nos quedamos con un profesor en
     el Scooter al que no necesariamente podamos ubicar, por lo que si es posible se ubica (en un desajuste de tipo 5 al ser un
-    profesor de CC), y si no no se recoge directamente en el último paso del bucle, como vimos anteriormente esto no afectará
+    profesor de CC), y si no, no se recoge directamente en el último paso del bucle, como vimos anteriormente esto no afectará
     a la resolución del ejercicio.
 
     Si no hay desajustes de tipo 0 entonces tienen que existir obligatoriamente desajustes de tipo 3, demostremos esto:
@@ -308,7 +315,7 @@
     si recogemos a un profesor de un edificio $i$ este quedará vacío pero con una clase programada, por lo que estará desajustado,
     pero como no se puede realizar un comando \texttt{DRIVE} dos veces al mismo edificio si recogemos un profesor aquí no podremos
     regresar y el edificio permanecerá desajustado, lo que significaría que el problema no tiene solución. Luego por reducción al
-    absurdo queda demostrado que si existen desajustes de tipo 1 y 4 entonces tambien debe haber al menos 1 de tipo 0 o 3. De esta 
+    absurdo queda demostrado que si existen desajustes de tipo 1 y 4 entonces tambien debe haber al menos uno de tipo 0 o 3. De esta 
     demostración puede deducirse además que es necesario resolver desajustes de tipo 0 o 3 (aún siendo despreciables) para la 
     resolución del resto.
 
@@ -334,7 +341,7 @@
     \subsection{Compejidad temporal y espacial}
     Al principio se recorren los arrays $p$ y $c$ una sola vez para rellenar $g$, esto cuesta $O(n)$. Por otro lado el número máximo 
     de desajustes posible es de $n$ (no pueden haber más desajustes que edificios), y el algoritmo resuelve un desajuste por paso y no 
-    repite edificio, por lo que el costo del algoritmo Greedy es también $O(n)$. Luego la complejidad temporal total del algoritmo es 
+    repite edificios, por lo que el costo del algoritmo Greedy es también $O(n)$. Luego la complejidad temporal total del algoritmo es 
     de $O(n)$, siendo este el costo de todas las operaciones que este realiza.
 
     Los arrays de entrada ocupan $O(n)$ en memoria. La lista $g$ que almacena los edificios según su desajustes, es una

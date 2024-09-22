@@ -10,8 +10,7 @@
 \usepackage{color}
 \usepackage{listings}
 \usepackage{hyperref}
-
-\title{Problema \#2: Fixed Points}
+\usepackage{xcolor}
 
 \hypersetup{
     colorlinks=true,
@@ -22,7 +21,16 @@
 \begin{document}
 
 
-    \maketitle
+      \begin{titlepage}
+            \centering
+            \colorbox{blue}{\parbox{\textwidth}{\centering\color{white}\Huge Fixed Points Problem}}
+            \vfill
+            \Large
+            \textbf{Luis Alejandro Rodríguez Otero} \\
+            \textit{Matcom} \\
+            September 21, 2024
+            \vfill
+      \end{titlepage}
     \newpage
 
     \tableofcontents
@@ -30,25 +38,25 @@
 
     \section{Problemática}
     \subsection{¿De qué trata el problema?}
-    Considera una secuencia de números enteros $a_1, a_2, ... , a_n$. En un movimientopuedes seleccionar 
+    Considera una secuencia de números enteros $a_1, a_2, ... , a_n$. En un movimiento puedes seleccionar 
     cualquier elemento de la secuencia y eliminarlo. Luego de que un elemento se elimine todos los demás 
     elementos a su derecha son desplazados a la izquierda una posición, por lo que no quedan elementos vacíos 
     en la secuencia. Luego de hacer un movimiento la longitud de la secuencia didminuye en 1. Los índices 
     de los elementos se recalculan luego de esto.
 
-    Dada la secuencia $a_1, a_2, ... , a_n$ y un número k, debes encontrar la menor cantidad de movimientos 
-    que se deben hacer para que la secuencia resultante tenga al menos k elementos que sean iguales a sus 
-    índices, es decir, que la secuencia resultante $b_1, b_2, ... , b_m$ tenga al menos k índices i tal que 
+    Dada la secuencia $a_1, a_2, ... , a_n$ y un número $k$, debes encontrar la menor cantidad de movimientos 
+    que se deben hacer para que la secuencia resultante tenga al menos $k$ elementos que sean iguales a sus 
+    índices, es decir, que la secuencia resultante $b_1, b_2, ... , b_m$ tenga al menos $k$ índices $i$ tal que 
     $b_i = i$
 
     \subsection{Entrada}
-    Se reciben dos enteros n (longitud de la cadena) y k (número de elementos que deben coincidir con su índice),
+    Se reciben dos enteros: $n$ (longitud de la cadena) y $k$ (número de elementos que deben coincidir con su índice),
     asi como la secuencia $a_1, a_2, ... , a_n$ $(1 \leq a_i \leq n)$. Los números de la secuencia no tienen 
     que ser diferentes necesariamente.
     
     \subsection{Salida}
-    Se debe devolver un entero x $(0 \leq x \leq n)$, que represente la cantidad mínima de movimientos que se
-    pueden hacer para que en la secuencia resultante existan al menos k elementos iguales a su índice. Si no
+    Se debe devolver un entero $x$ $(0 \leq x \leq n)$, que represente la cantidad mínima de movimientos que se
+    pueden hacer para que en la secuencia resultante existan al menos $k$ elementos iguales a su índice. Si no
     es posible encontrar dicha secuencia se devuelve -1.
 
     \section{Solución}
@@ -71,7 +79,7 @@
     Luego de leer los datos de entrada se realiza una transformación sobre la secuencia de entrada $nums$ que consiste
     en lo siguiente: $nums[i] = i - nums[i] + 1$. Con esto lo que se logra es que en cada posición de $nums$ se guarde
     la distancia que hay entre el valor original y el índice. Por ejemplo si $nums = [5,2,2,4]$ entonces luego de la
-    transformación $nums = [-4, 0, 1, 0]$, nótese que cada 0 es un índice fijo. Esto será útil en la construcción de 
+    transformación, $nums = [-4, 0, 1, 0]$, nótese que cada 0 es un índice fijo. Esto será útil en la construcción de 
     la tabla de dp.
 
     Procedemos entonces a crear la tabla de dp. Se definen primeramente los casos base, es decir, los índices fijos
@@ -141,9 +149,9 @@
 
     Notemos que en el caso 1 la solución óptima de $F(n, j)$ se apoya en la solución del subproblema $S_1 + 1$, en el
     caso 2 se apoya en $S_1$ y en el caso 3 se apoya en $S_2$. Luego $F(n, j)$ será la mayor cantidad de índices fijos
-    que haya en $S_1 + int(a[n] == j)$ (recordemos que esa expresión booleana devueve 1 si $a[n]$ es índice fijo) y en 
-    $S_2$, por tanto $F(n, j) = max(S_1 + int(a[n] == j), S_2)$. Vemos que calcular los índices fijos en $n$ depende de
-    que se hallan calculado correctamente los índices en $n-1$, luego se cumple la propiedad de subestructura óptima.
+    que haya entre $S_1 + int(a[n] == j)$ (recordemos que esa expresión booleana devueve 1 si $a[n]$ es índice fijo) y 
+    $S_2$, por tanto $F(n, j) = max(S_1 + int(a[n] == j), S_2)$. Vemos que calcular correctamente los índices fijos en $n$ 
+    depende de que se hallan calculado correctamente los índices en $n-1$, luego se cumple la propiedad de subestructura óptima.
     
     \subsubsection{Subproblemas superpuestos}
     Esta propiedad se refiere a que la solución de un subproblema es utilizada en más de un problema mayor, y que por
@@ -166,7 +174,7 @@
     \textbf{Caso base:} $n=0$
 
     En este caso estamos analizando la cantidad de índices fijos que se pueden conseguir mirando solo el primer
-    elemento del $a$. Tenemos:
+    elemento de $a$. Tenemos:
 
     \begin{itemize}
         \item $dp[0][1] = 0$: Ya que si solo tenemos un elemento y lo eliminamos no se tiene ningún índice fijo
@@ -192,7 +200,7 @@
     \]
 
     Donde $F(i, j)$ calcula correctamente el máximo número de índices fijos que se pueden obtener en los 
-    primeros $n$ elementos de $a$ utilizando exactamente $j$ movimientos. Luego $dp[i][j] = F(i, j)$ y en 
+    primeros $i$ elementos de $a$ utilizando exactamente $j$ movimientos. Luego $dp[i][j] = F(i, j)$ y en 
     particular $dp[n][j] = F(n, j)$. Sustituyendo en la fórmula de $F$ tenemos:
 
     \[
@@ -201,7 +209,7 @@
 
     Como $dp[n-1][j]$ y $dp[n-1][j-1]$ están bien calculados por hipótesis de inducción entonces podemos
     decir que $dp[n][j]$ está bien calculado para todo $j$, o lo que es lo mismo, en la fila $n$ del dp se
-    tienen calculados las máximas cantidades de índices fijos que se pueden obtener en todo el array $a$ 
+    tienen calculadas las máximas cantidades de índices fijos que se pueden obtener en todo el array $a$ 
     usando todas las posibles cantidades de movimientos.
 
     Por tanto la respuesta al ejercicio es el menor $j$ tal que $dp[n][j] \geq k$, es decir, la menor cantidad
@@ -220,8 +228,8 @@
     La transformación inicial de la secuencia de entrada se hace en $O(n)$, y la respuesta se da leyendo solo
     una fila del dp, lo que tambien es $O(n)$, por tanto la complejidad temporal va estar dada por el coste
     de la construcción del dp. Como la matriz del dp es de $n \times n + 1$ y se construye de una sola pasada,
-    la complejidad temporal total del algoritmo es de $O(n \times n+1)$, o lo que es lo mismo $O(n^2)$.
+    la complejidad temporal total del algoritmo es de $O(n \cdot (n+1))$, o lo que es lo mismo $O(n^2)$.
 
     Con la complejidad espacial pasa lo mismo, el array de entrada ocupa $O(n)$ mientras que la tabla del dp ocupa
-    $O(n^2)$, siendo esta segunda la complejidad espacial total del algoritmo.
+    $O(n^2)$, siendo entonces, esta segunda, la complejidad espacial total del algoritmo.
 \end{document}
